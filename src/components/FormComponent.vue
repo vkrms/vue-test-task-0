@@ -106,7 +106,7 @@ export default {
 
     finalPremium() {
       const coeff = packages[this.packageIndex][1];
-      return this.basePremium * (1 + coeff);
+      return Math.round(this.basePremium * (1 + coeff));
     },
   },
 

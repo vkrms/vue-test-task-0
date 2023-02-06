@@ -85,8 +85,6 @@ export default {
       name: "",
       age: null,
       country: "Hong Kong",
-      packageType: "",
-      currency: "",
       packageIndex: 0,
       showModal: false,
     };
@@ -108,27 +106,19 @@ export default {
       const coeff = packages[this.packageIndex][1];
       return Math.round(this.basePremium * (1 + coeff));
     },
-  },
 
-  watch: {
-    packageIndex: {
-      handler(newIndex) {
-        this.packageType = packages[newIndex][0];
-      },
-      immediate: true,
+    packageType() {
+      return packages[this.packageIndex][0];
     },
 
-    country: {
-      handler(newCountry) {
-        this.currency = countries[newCountry].currency;
-      },
-      immediate: true,
+    currency() {
+      return countries[this.country].currency;
     },
   },
 
   methods: {
     getAddedPriceStr(coeff) {
-      const addedPrice = this.basePremium * coeff;
+      const addedPrice = Math.round(this.basePremium * coeff);
 
       const percentage = coeff * 100;
 

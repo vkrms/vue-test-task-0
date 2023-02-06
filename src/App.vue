@@ -14,6 +14,7 @@ import { RouterView } from "vue-router";
 
 <style scoped>
 .step-body {
+  width: 100%;
   max-width: 420px;
   margin: 0 auto;
   background: #f7f7f7;

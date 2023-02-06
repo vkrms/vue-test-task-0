@@ -29,8 +29,8 @@ const capitalize = (str) => {
   </div>
 
   <div class="buttons-wrap">
-    <Button class="secondary" @click="this.$router.go(-1)">Back</Button>
-    <Button @click="this.$router.push('/')">Buy</Button>
+    <Button class="secondary" @click="$router.go(-1)">Back</Button>
+    <Button @click="$router.push('/')">Buy</Button>
   </div>
 </template>
 

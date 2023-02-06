@@ -40,7 +40,7 @@ import { store } from "./store.js";
     <h2>Your premium is: {{ finalPremiumStr }}</h2>
 
     <div class="buttons-wrap">
-      <Button @click="this.$router.go(-1)" class="secondary">Back</Button>
+      <Button @click="$router.go(-1)" class="secondary">Back</Button>
       <Button type="submit">Next</Button>
     </div>
   </form>

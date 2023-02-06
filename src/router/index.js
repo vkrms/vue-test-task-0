@@ -33,6 +33,13 @@ const router = createRouter({
         return { name: "home" };
       },
     },
+    // instead of 404
+    {
+      path: "/:pathMatch(.*)*",
+      redirect() {
+        return { path: "/" };
+      },
+    },
   ],
 });
 

@@ -172,5 +172,5 @@ export default {
 </script>
 
 <style scoped>
-@import "./FormComponent.css";
+@import "./MyForm.css";
 </style>

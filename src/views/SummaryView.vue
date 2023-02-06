@@ -34,7 +34,7 @@ const capitalize = (str) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 ul {
   list-style: none;
   padding: 0;

@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import Button from "../components/MyButton.vue";
-import { store } from "../components/store.js";
+import { store } from "../store";
 const { name, age, country, packageType, premium, currency } = store.submitted;
 
 const list = {
@@ -11,7 +11,7 @@ const list = {
   premium: `${premium}${currency}`,
 };
 
-const capitalize = (str) => {
+const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 </script>

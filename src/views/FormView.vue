@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import FormComponent from "../components/MyForm.vue";
 </script>
 
@@ -8,9 +8,3 @@ import FormComponent from "../components/MyForm.vue";
     <FormComponent></FormComponent>
   </div>
 </template>
-
-<script>
-export default {
-  name: "FormView",
-};
-</script>

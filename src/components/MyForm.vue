@@ -1,7 +1,104 @@
-<script setup>
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+
 import Button from "./MyButton.vue";
 
-import { store } from "./store.js";
+import { store } from "../store.js";
+
+const router = useRouter();
+
+const countries = {
+  "Hong Kong": {
+    currency: "HKD",
+    rate: 1,
+  },
+  USA: {
+    currency: "USD",
+    rate: 2,
+  },
+  Australia: {
+    currency: "AUD",
+    rate: 3,
+  },
+};
+
+const packages = [
+  ["Standard", 0],
+  ["Safe", 0.5],
+  ["Super Safe", 0.75],
+];
+
+const name = ref("");
+const age = ref(null);
+const country = ref("Hong Kong");
+const packageIndex = ref(0);
+const showModal = ref(false);
+
+const basePremium = computed(() => {
+  const rate = countries[country.value].rate;
+  return 10 * age.value * rate;
+});
+
+const finalPremiumStr = computed(() => {
+  return finalPremium.value > 0
+    ? `${finalPremium.value}${currency.value}`
+    : "...";
+});
+
+const finalPremium = computed(() => {
+  const coeff = packages[packageIndex.value][1];
+  return Math.round(basePremium.value * (1 + coeff));
+});
+
+const packageType = computed(() => {
+  return packages[packageIndex.value][0];
+});
+
+const currency = computed(() => {
+  return countries[country.value].currency;
+});
+
+const getAddedPriceStr = (coeff) => {
+  const addedPrice = Math.round(basePremium.value * coeff);
+
+  const percentage = coeff * 100;
+
+  return addedPrice > 0
+    ? ` (+${addedPrice}${currency.value}, ${percentage}%)`
+    : null;
+};
+
+function handleSubmit(e) {
+  e.preventDefault();
+
+  if (age.value > 100) {
+    openModal();
+    return;
+  }
+
+  // send data to store for future use
+  // const { name, age, country, packageType, currency } = this;
+  store.submitted = {
+    name: name.value,
+    age: age.value,
+    country: country.value,
+    packageType: packageType.value,
+    currency: currency.value,
+    premium: finalPremium.value,
+  };
+
+  router.push("/summary");
+}
+
+function handleModalBtn() {
+  showModal.value = false;
+  router.push("/");
+}
+
+function openModal() {
+  showModal.value = true;
+}
 </script>
 
 <template>
@@ -56,110 +153,6 @@ import { store } from "./store.js";
     </div>
   </div>
 </template>
-
-<script>
-const countries = {
-  "Hong Kong": {
-    currency: "HKD",
-    rate: 1,
-  },
-  USA: {
-    currency: "USD",
-    rate: 2,
-  },
-  Australia: {
-    currency: "AUD",
-    rate: 3,
-  },
-};
-
-const packages = [
-  ["Standard", 0],
-  ["Safe", 0.5],
-  ["Super Safe", 0.75],
-];
-
-export default {
-  data() {
-    return {
-      name: "",
-      age: null,
-      country: "Hong Kong",
-      packageIndex: 0,
-      showModal: false,
-    };
-  },
-
-  computed: {
-    basePremium() {
-      const rate = countries[this.country].rate;
-      return 10 * this.age * rate;
-    },
-
-    finalPremiumStr() {
-      return this.finalPremium > 0
-        ? `${this.finalPremium}${this.currency}`
-        : "...";
-    },
-
-    finalPremium() {
-      const coeff = packages[this.packageIndex][1];
-      return Math.round(this.basePremium * (1 + coeff));
-    },
-
-    packageType() {
-      return packages[this.packageIndex][0];
-    },
-
-    currency() {
-      return countries[this.country].currency;
-    },
-  },
-
-  methods: {
-    getAddedPriceStr(coeff) {
-      const addedPrice = Math.round(this.basePremium * coeff);
-
-      const percentage = coeff * 100;
-
-      return addedPrice > 0
-        ? ` (+${addedPrice}${this.currency}, ${percentage}%)`
-        : null;
-    },
-
-    handleSubmit(e) {
-      e.preventDefault();
-
-      if (this.age > 100) {
-        this.openModal();
-        return;
-      }
-
-      // send data to store for future use
-      const { name, age, country, packageType, currency } = this;
-      store.submitted = {
-        name,
-        age,
-        country,
-        packageType,
-        currency,
-        premium: this.finalPremium,
-      };
-
-      this.$router.push("/summary");
-    },
-
-    handleModalBtn() {
-      this.showModal = false;
-      this.$router.push("/");
-    },
-
-    openModal() {
-      this.showModal = true;
-    },
-  },
-};
-</script>
 
 <style scoped>
 @import "./MyForm.css";

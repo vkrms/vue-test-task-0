@@ -2,12 +2,13 @@
   "compilerOptions": {
     "types": [
       // "vite/client",
-      "jest",
+      "jest"
     ],    
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true
   },
   "include": ["vite.config.ts"]
 }

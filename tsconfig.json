@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "types": [
-            "vite/client",
+            "vite/client"
         ],
         "target": "esnext",
         "useDefineForClassFields": true,
@@ -29,20 +29,12 @@
             "@/*": [
                 "./src/*"
             ]
-        },
+        }
     },
     "include": [
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
         "src/**/*.vue"
-    ],
-    "exclude": [
-        "node_modules"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
     ]
 }

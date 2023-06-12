@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import MyHome from "@/components/MyHome.vue";
+import { it, expect, describe } from "vitest";
 
 describe("MyHome", () => {
   it("renders a message", () => {

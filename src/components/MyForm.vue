@@ -6,6 +6,9 @@ import Button from "./MyButton.vue";
 
 import { store } from "../store.js";
 
+type Package = [string, number]
+type Country = 'Hong Kong' | 'USA' | 'Australia'
+
 const router = useRouter();
 
 const countries = {
@@ -23,15 +26,15 @@ const countries = {
   },
 };
 
-const packages = [
+const packages: Package[] = [
   ["Standard", 0],
   ["Safe", 0.5],
   ["Super Safe", 0.75],
 ];
 
 const name = ref("");
-const age = ref(null);
-const country = ref("Hong Kong");
+const age = ref(0);
+const country = ref<Country>("Hong Kong");
 const packageIndex = ref(0);
 const showModal = ref(false);
 
@@ -59,7 +62,7 @@ const currency = computed(() => {
   return countries[country.value].currency;
 });
 
-const getAddedPriceStr = (coeff) => {
+const getAddedPriceStr = (coeff: number) => {
   const addedPrice = Math.round(basePremium.value * coeff);
 
   const percentage = coeff * 100;
@@ -69,7 +72,7 @@ const getAddedPriceStr = (coeff) => {
     : null;
 };
 
-function handleSubmit(e) {
+function handleSubmit(e: Event) {
   e.preventDefault();
 
   if (age.value > 100) {

@@ -5,9 +5,9 @@ import { RouterView } from "vue-router";
 <template>
   <div class="step-body">
     <router-view v-slot="{ Component }">
-      <keep-alive include="FormView">
-        <component :is="Component" />
-      </keep-alive>
+      <component :is="Component" />
+      <!-- <keep-alive include="FormView">
+        </keep-alive> -->
     </router-view>
   </div>
 </template>

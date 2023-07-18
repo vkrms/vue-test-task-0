@@ -1,8 +1,14 @@
-<script lang="ts">
+<script lang="ts" setup>
 import Button from "./MyButton.vue";
 
-import { defineComponent } from "vue";
+// reset store
+import { useStore } from "../store";
+const store = useStore();
+store.$reset();
+</script>
 
+<script lang="ts">
+import { defineComponent } from "vue";
 export default defineComponent({})
 </script>
 
@@ -11,8 +17,6 @@ export default defineComponent({})
   <p>Let's buy some insurance. It is going to take only a few steps</p>
 
   <router-link to="/step2">
-    <!-- it woudl be ideal to clear the KeepAlive cached state
-      when start is clicked, but there's no easy way -->
     <Button>Start</Button>
   </router-link>
 </template>

@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 
 import Button from "./MyButton.vue";
-
-import { store } from "../store.js";
+import { useStore } from "../store";
+// import { storeToRefs } from "pinia";
 
 type Package = [string, number]
-type Country = 'Hong Kong' | 'USA' | 'Australia'
+
+interface Country {
+  currency: string;
+  rate: number;
+}
+
+interface Countries {
+  [key: string]: Country;
+}
+
+const store = useStore();
 
 const router = useRouter();
 
-const countries = {
+const countries: Countries = {
   "Hong Kong": {
     currency: "HKD",
     rate: 1,
@@ -32,15 +42,12 @@ const packages: Package[] = [
   ["Super Safe", 0.75],
 ];
 
-const name = ref("");
-const age = ref(0);
-const country = ref<Country>("Hong Kong");
 const packageIndex = ref(0);
 const showModal = ref(false);
 
 const basePremium = computed(() => {
-  const rate = countries[country.value].rate;
-  return 10 * age.value * rate;
+  const rate = countries[store.country].rate;
+  return 10 * store.age * rate;
 });
 
 const finalPremiumStr = computed(() => {
@@ -59,8 +66,16 @@ const packageType = computed(() => {
 });
 
 const currency = computed(() => {
-  return countries[country.value].currency;
+  return countries[store.country].currency
 });
+
+// update store on computed
+watchEffect(() => {
+  store.currency = currency.value
+  store.premium = finalPremium.value
+  store.packageType = packageType.value
+})
+
 
 const getAddedPriceStr = (coeff: number) => {
   const addedPrice = Math.round(basePremium.value * coeff);
@@ -75,21 +90,10 @@ const getAddedPriceStr = (coeff: number) => {
 function handleSubmit(e: Event) {
   e.preventDefault();
 
-  if (age.value > 100) {
+  if (store.age > 100) {
     openModal();
     return;
   }
-
-  // send data to store for future use
-  // const { name, age, country, packageType, currency } = this;
-  store.submitted = {
-    name: name.value,
-    age: age.value,
-    country: country.value,
-    packageType: packageType.value,
-    currency: currency.value,
-    premium: finalPremium.value,
-  };
 
   router.push("/summary");
 }
@@ -108,17 +112,17 @@ function openModal() {
   <form @submit="handleSubmit">
     <label class="form-group">
       <div class="label-text">Name</div>
-      <input type="text" class="input" v-model="name" required />
+      <input type="text" class="input" v-model="store.name" required />
     </label>
 
     <label class="form-group">
       <div class="label-text">Age</div>
-      <input type="number" class="input" v-model="age" required />
+      <input type="number" class="input" v-model="store.age" required />
     </label>
 
     <label class="form-group">
       <div class="label-text">Where do you live?</div>
-      <select class="input" v-model="country">
+      <select class="input" v-model="store.country">
         <option v-for="(val, country) in countries" :key="country">
           {{ country }}
         </option>
@@ -126,11 +130,7 @@ function openModal() {
     </label>
 
     <div class="radios">
-      <label
-        :key="name"
-        v-for="([name, coeff], index) in packages"
-        class="radio-label"
-      >
+      <label :key="name" v-for="([name, coeff], index) in packages" class="radio-label">
         <input type="radio" :key="name" :value="index" v-model="packageIndex" />
 
         <span class="">{{ name }} {{ getAddedPriceStr(coeff) }}</span>

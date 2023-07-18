@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import Button from "../components/MyButton.vue";
-import { store } from "../store";
-const { name, age, country, packageType, premium, currency } = store.submitted;
+import { useStore } from "../store";
+
+const store = useStore();
+const { name, age, country, packageType, premium, currency } = store
+
 
 const list = {
   name,

@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 
 interface State {
-  name: string,
-  age: number,
+  name?: string,
+  age?: number,
   country: string,
   packageType: string,
   currency: string,
@@ -12,8 +12,8 @@ interface State {
 
 export const useStore = defineStore("store", {
   state: (): State => ({
-    name: "",
-    age: 0,
+    name: undefined,
+    age: undefined,
     country: "Hong Kong",
     packageType: "",
     currency: "",

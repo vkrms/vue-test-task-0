@@ -112,12 +112,12 @@ function openModal() {
   <form @submit="handleSubmit">
     <label class="form-group">
       <div class="label-text">Name</div>
-      <input type="text" class="input" v-model="store.name" required />
+      <input type="text" class="input" v-model="store.name" placeholder="Name" required />
     </label>
 
     <label class="form-group">
       <div class="label-text">Age</div>
-      <input type="number" class="input" v-model="store.age" required />
+      <input type="number" class="input" v-model="store.age" placeholder="Age" required />
     </label>
 
     <label class="form-group">

@@ -1,6 +1,7 @@
 // https://runthatline.com/vitest-mock-vue-router/
+import { setActivePinia, createPinia } from 'pinia'
 
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, describe, test, vi, expect } from 'vitest'
 import { RouteNames } from '@/router'
 import MyForm from '@/components/MyForm.vue'
@@ -12,18 +13,21 @@ console.log({ RouteNames })
 
 describe('Form', () => {
     useRouter.mockReturnValue({
-        push: vi.fn(),
+        go: vi.fn(),
     })
 
     beforeEach(() => {
-        useRouter().push.mockReset()
+        // creates a fresh pinia and make it active so it's automatically picked
+        // up by any useStore() call without having to pass it to it:
+        // `useStore(pinia)`
+        setActivePinia(createPinia())
+        useRouter().go.mockReset()
     })
 
     test(`navigates to your mom and something else probably`, async () => {
-        const wrapper = shallowMount(MyForm)
-        
-        await wrapper.find('button').trigger('click')
+        const wrapper = await mount(MyForm)
+        wrapper.find('button').trigger('click')
 
-        expect(something_to_happen)
+        expect(useRouter().go).toHaveBeenCalledWith(-1)
     })
 })

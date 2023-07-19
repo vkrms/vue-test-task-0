@@ -108,6 +108,11 @@ function openModal() {
 }
 </script>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({})
+</script>
+
 <template>
   <form @submit="handleSubmit">
     <label class="form-group">
@@ -130,6 +135,7 @@ function openModal() {
     </label>
 
     <div class="radios">
+      <div class="label-text">Choose your package</div>
       <label :key="name" v-for="([name, coeff], index) in packages" class="radio-label">
         <input type="radio" :key="name" :value="index" v-model="packageIndex" />
 
@@ -140,7 +146,7 @@ function openModal() {
     <h2>Your premium is: {{ finalPremiumStr }}</h2>
 
     <div class="buttons-wrap">
-      <Button @click="$router.go(-1)" class="secondary">Back</Button>
+      <Button @click="router.go(-1)" class="secondary">Back</Button>
       <Button type="submit">Next</Button>
     </div>
   </form>

@@ -20,4 +20,9 @@ export const useStore = defineStore("store", {
     premium: 0,
     premiumStr: "",
   }),
+  actions: {
+    setWholeState(newState: State) {
+      this.$state = newState;
+    },
+  },
 })

@@ -1,7 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { RouteLocationNormalized, createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import FormView from "../views/FormView.vue";
 import SummaryView from "../views/SummaryView.vue";
+
+export function redirectHomeCond(to: any, from: RouteLocationNormalized) {
+  if (from.name == "home" || from.name == "summary") return true;
+
+  // redirect home
+  return { name: "home" };
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,12 +22,7 @@ const router = createRouter({
       path: "/step2",
       name: "step 2",
       component: FormView,
-      beforeEnter: (to, from) => {
-        if (from.name == "home" || from.name == "summary") return true;
-
-        // redirect home
-        return { name: "home" };
-      },
+      beforeEnter: redirectHomeCond
     },
     {
       path: "/summary",

@@ -7,11 +7,14 @@ export default defineConfig({
     plugins: [vue()],
     test: {
         globals: true,
-        environment: "jsdom",
+        environment: "happy-dom",
+        coverage: {
+            reporter: ['text', 'json', 'html'],
+        }
     },
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
-    },    
+    },
 })
